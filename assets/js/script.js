@@ -64,16 +64,20 @@ const getDate = () => {
 };
 
 const getScheduledEvents = () => {
-  let getEvents = JSON.parse(localStorage.getItem("events"));
-  if (!getEvents) {
-    getEvents = [];
-  }
-  return getEvents;
+  // function to get events from local storage
+
+  let getEvents = JSON.parse(localStorage.getItem("events")); // get events from local storage
+  if (!getEvents) getEvents = []; // if no events in local storage, set to empty array
+
+  return getEvents; // return array of events
 };
 
 const saveScheduledEvents = (event) => {
-  const events = getScheduledEvents();
-  const index = events.find((x) => x.id === event.id);
+  // function to save events to local storage
+
+  const events = getScheduledEvents(); // get events from local storage
+  const index = events.find((x) => x.id === event.id); // check if event already exists
+
   if (index) {
     // if event already exists, update it
     events[index] = event;
@@ -82,7 +86,7 @@ const saveScheduledEvents = (event) => {
     events.push(event);
   }
 
-  localStorage.setItem("events", JSON.stringify(events));
+  localStorage.setItem("events", JSON.stringify(events)); // save events to local storage
 };
 
 $(document).ready(function () {
@@ -92,11 +96,13 @@ $(document).ready(function () {
   $("#currentDay").text(getDate());
 
   $(".time-block").each(function (index) {
+    // set class for each time block
     $(this).addClass(returnHourClass(workHours[index]));
   });
 
+  // set description for each time block from local storage to textarea
   getScheduledEvents().forEach((event) => {
-    console.log($(`#${event.id}`).children("textarea"));
+    $(`#${event.id}`).children("textarea").val(event.description);
   });
 
   // TODO: Add a listener for click events on the save button. This code should
@@ -105,8 +111,4 @@ $(document).ready(function () {
   // function? How can DOM traversal be used to get the "hour-x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
 });
