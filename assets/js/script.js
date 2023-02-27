@@ -1,7 +1,57 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-$(function () {
+const weekDays = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const getDate = () => {
+  const currentWeekDay = dayjs().day(); // gets day of current week
+  const currentDay = dayjs().date(); // gets day of current month
+  const currentMonth = dayjs().month(); // gets current month
+
+  const nth = function(d) {
+    // function to add suffix to day of month
+    // https://stackoverflow.com/questions/15397372/javascript-new-date-ordinal-st-nd-rd-th
+    if (d > 3 && d < 21) return 'th';
+    switch (d % 10) {
+      case 1:  return `st`;
+      case 2:  return "nd";
+      case 3:  return "rd";
+      default: return "th";
+    }
+  }
+
+  return `${weekDays[currentWeekDay]}, ${months[currentMonth]} ${currentDay}${nth(currentDay)}`;
+};
+
+$(document).ready(function () {
+  // Run code when the DOM is ready
+
+  $("#currentDay").text(getDate()); // set variable for current day element
+
+  // get current day and display in header
+
+  // $("#currentDay");
+
+  // $(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -20,4 +70,5 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
+  // });
 });
