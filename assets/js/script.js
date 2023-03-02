@@ -87,6 +87,20 @@ const saveScheduledEvents = (event) => {
   }
 
   localStorage.setItem("events", JSON.stringify(events)); // save events to local storage
+  console.log("Event saved to local storage");
+};
+
+const saveEvent = (id) => {
+  const textAreaContent = $("#" + id)
+    .children("textarea")
+    .val()
+    .trim();
+
+  if (textAreaContent) {
+    saveScheduledEvents({ id, description: textAreaContent });
+  } else {
+    saveScheduledEvents({ id, description: "" });
+  }
 };
 
 $(document).ready(function () {
