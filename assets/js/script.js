@@ -1,6 +1,7 @@
 const workHours = [9, 10, 11, 12, 13, 14, 15, 16, 17]; // array of work hours in 24-hour time
 
 const weekDays = [
+  // array of week days
   "Sunday",
   "Monday",
   "Tuesday",
@@ -10,6 +11,7 @@ const weekDays = [
   "Saturday",
 ];
 const months = [
+  // array of months
   "January",
   "February",
   "March",
@@ -29,15 +31,16 @@ const currentHour = dayjs().hour(); // gets current hour in 24-hour time
 const returnHourClass = (hour) => {
   // function to set class for each hour
   if (hour < currentHour) {
-    return "past";
+    return "past"; // if hour is before current hour, set class to past
   } else if (hour > currentHour) {
-    return "future";
+    return "future"; // if hour is after current hour, set class to future
   } else {
-    return "present";
+    return "present"; // if hour is current hour, set class to present
   }
 };
 
 const getDate = () => {
+  // function to get current date
   const currentWeekDay = dayjs().day(); // gets day of current week
   const currentDay = dayjs().date(); // gets day of current month
   const currentMonth = dayjs().month(); // gets current month
@@ -76,8 +79,7 @@ const saveScheduledEvents = (event) => {
   // function to save events to local storage
 
   const events = getScheduledEvents(); // get events from local storage
-  const index = events.find((x) => x.id === event.id); // check if event already exists
-
+  const index = events.findIndex((x) => x.id === event.id); // check if event already exists
   if (index) {
     // if event already exists, update it
     events[index] = event;
@@ -87,34 +89,29 @@ const saveScheduledEvents = (event) => {
   }
 
   localStorage.setItem("events", JSON.stringify(events)); // save events to local storage
-  console.log("Event saved to local storage");
 };
 
 const saveEvent = (id) => {
-  console.log("Save button clicked");
-  const textAreaContent = $("#" + id)
+  // function to run when save button is clicked
+  const textAreaContent = $("#" + id) // get text from textarea
     .children("textarea")
     .val()
     .trim();
 
-  if (textAreaContent) {
-    saveScheduledEvents({ id, description: textAreaContent });
-  } else {
-    saveScheduledEvents({ id, description: "" });
-  }
+  saveScheduledEvents({ id, description: textAreaContent }); // save event to local storage
 
-  $("#saved")
-  .append(
-    `<div id="added">Appointment added to LocalStorage <img id="checkmark" src="./assets/images/check.svg" alt="checkmark image" /></div>`
-  )
-  .fadeIn(1000);
+  $("#saved") // display message that event was saved
+    .append(
+      `<div id="added">Appointment added to LocalStorage <img id="checkmark" src="./assets/images/check.svg" alt="checkmark image" /></div>`
+    )
+    .fadeIn(1000);
 
-  $("#added")
-  .delay(3000)
-  .fadeOut(1000)
-  .queue(function () {
-    $(this).remove();
-  });
+  $("#added") // remove message after 3 seconds
+    .delay(3000)
+    .fadeOut(1000)
+    .queue(function () {
+      $(this).remove();
+    });
 };
 
 $(document).ready(function () {
@@ -133,10 +130,8 @@ $(document).ready(function () {
     $(`#${event.id}`).children("textarea").val(event.description);
   });
 
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
+  // save event to local storage when save button is clicked
+  $(".saveBtn").on("click", function () {
+    saveEvent($(this).parent().attr("id"));
+  });
 });
