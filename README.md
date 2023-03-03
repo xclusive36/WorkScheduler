@@ -9,3 +9,4 @@ The web application utilizes JQuery, DayJS, and LocalStorage. Starter code was p
 [Link to working example](https://xclusive36.github.io/WorkScheduler/)
 
 (st, nd, rd, th): from https://stackoverflow.com/questions/15397372/javascript-new-date-ordinal-st-nd-rd-th
+./assets/js/script.js
