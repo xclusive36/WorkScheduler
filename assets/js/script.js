@@ -91,6 +91,7 @@ const saveScheduledEvents = (event) => {
 };
 
 const saveEvent = (id) => {
+  console.log("Save button clicked");
   const textAreaContent = $("#" + id)
     .children("textarea")
     .val()
@@ -101,6 +102,19 @@ const saveEvent = (id) => {
   } else {
     saveScheduledEvents({ id, description: "" });
   }
+
+  $("#saved")
+  .append(
+    `<div id="added">Appointment added to LocalStorage <img id="checkmark" src="./assets/images/check.svg" alt="checkmark image" /></div>`
+  )
+  .fadeIn(1000);
+
+  $("#added")
+  .delay(3000)
+  .fadeOut(1000)
+  .queue(function () {
+    $(this).remove();
+  });
 };
 
 $(document).ready(function () {
